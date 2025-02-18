@@ -1,5 +1,5 @@
 import "../CSS/header.css";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import imgSlideOne from "../images/home (22).png";
@@ -7,7 +7,25 @@ import imgSlideTwo from "../images/home (24).png";
 import imgHome23 from "../images/home (23).png";
 
 function Header(){
+
+    const [sliders,setSliders] = useState([]);
+
+    const getAllSliders = async () => {
+       await  fetch("/api/sliders",{
+            method: "GET"
+        })
+        .then((response) => response.json())
+        .then(data => setSliders(data.sliders))
+    }
+
+    useEffect(() => {
+        getAllSliders()
+    },[])
+
+    console.log(sliders)
+
     const [activeIndex, setActiveIndex] = useState(0);
+
     const images = [imgSlideOne, imgSlideTwo];
 
     const handleLeftClick = () => {
